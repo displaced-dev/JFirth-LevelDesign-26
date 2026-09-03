@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4f2734160412f41b754770c7982f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelDesign.Gameplay.Level.LedgeController
+  protectFromledges: 0
   maxDropHeight: 0.4
   maxSlopeAngle: 75
   pushBack: 0.6
@@ -110,7 +111,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  lowestYPoint: -50
+  lowestYPoint: -15
   capsuleProbeCount: 8
   debugDrawProbes: 0
   e_playerKilled: {fileID: 11400000, guid: ed94c073a594f004f8e8514ded3ec7d8, type: 2}

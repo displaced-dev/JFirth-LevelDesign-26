@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee4f2734160412f41b754770c7982f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelDesign.Gameplay.Levels.LedgeController
+  protectFromledges: 1
   maxDropHeight: 3
   maxSlopeAngle: 50
   pushBack: 0.02

@@ -85,6 +85,7 @@ namespace LevelDesign.Systems
             Health health = other.GetComponent<Health>();
             if (health != null) {
                 health.TakeDamage(damage);
+                Debug.Log("Hit An Object With Health");
             }
 
             Cleanup();
