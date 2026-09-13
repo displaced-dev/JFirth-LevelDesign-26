@@ -37,11 +37,11 @@ namespace DeveloperConsole
          */
         public Key keyType = Key.T;
 
-        [ColorHtmlProperty] public Color colorDefault = Color.white;
-        [ColorHtmlProperty] public Color colorSuccess = Color.green;
-        [ColorHtmlProperty] public Color colorWarning = Color.yellow;
-        [ColorHtmlProperty] public Color colorError = Color.red;
-        [ColorHtmlProperty] public Color colorCommands = Color.magenta;
+        public Color colorDefault = Color.white;
+        public Color colorSuccess = Color.green;
+        public Color colorWarning = Color.yellow;
+        public Color colorError = Color.red;
+        public Color colorCommands = Color.magenta;
 
         [Space(10)]
         [Header("Internal")]
