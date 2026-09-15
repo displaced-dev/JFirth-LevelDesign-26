@@ -254,7 +254,7 @@ MonoBehaviour:
   damage: 10
   impactPrefab: {fileID: 7659215243767917252, guid: e3c1b3590a72f334eb93c4baa647a2db, type: 3}
   impactLifetime: 2
-  maxLifetime: 5
+  maxLifetime: 0.7
 --- !u!135 &3990879947212320766
 SphereCollider:
   m_ObjectHideFlags: 0

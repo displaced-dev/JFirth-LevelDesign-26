@@ -164,7 +164,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 0.2
+  m_Time: 0.1
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -254,7 +254,7 @@ MonoBehaviour:
   damage: 10
   impactPrefab: {fileID: 7659215243767917252, guid: 4728af3ac37dbd64ab74203492cfbbca, type: 3}
   impactLifetime: 2
-  maxLifetime: 5
+  maxLifetime: 1
 --- !u!135 &3990879947212320766
 SphereCollider:
   m_ObjectHideFlags: 0
