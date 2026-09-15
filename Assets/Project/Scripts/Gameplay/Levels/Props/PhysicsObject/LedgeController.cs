@@ -28,6 +28,7 @@ namespace LevelDesign.Gameplay.Levels
         private Rigidbody rb;
         private Collider col;
         private Vector3 resetPosition;
+        private Quaternion resetRotation;
  
         void OnEnable() {
             if(e_playerKilled != null) {
@@ -46,6 +47,7 @@ namespace LevelDesign.Gameplay.Levels
             col = GetComponent<Collider>();
  
             resetPosition = transform.position;
+            resetRotation = transform.rotation;
         }
  
         void FixedUpdate()
@@ -116,6 +118,7 @@ namespace LevelDesign.Gameplay.Levels
 
         private void ResetObject() {
             rb.position = resetPosition;
+            rb.rotation = resetRotation;
         }
  
         private Vector3[] BuildProbes(Bounds b)
