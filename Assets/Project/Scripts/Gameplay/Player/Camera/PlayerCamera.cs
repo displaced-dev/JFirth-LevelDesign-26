@@ -89,7 +89,7 @@ namespace LevelDesign.Systems.Player
         #endregion
 
         void OnDestroy() {
-            InputAuthManager.Instance.RelinquishRequest(this);
+            if(InputAuthManager.Instance != null) { InputAuthManager.Instance.RelinquishRequest(this); }        
         }
     }
 }

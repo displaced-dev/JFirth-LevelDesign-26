@@ -28,7 +28,7 @@ namespace NodeCanvas.Tasks.Conditions
         protected override string info => "Can See " + target;
 
         protected override bool OnCheck() {
-
+            if ( target.value == null ) { return false; }
             var t = target.value.transform;
 
             if ( !t.gameObject.activeInHierarchy ) {

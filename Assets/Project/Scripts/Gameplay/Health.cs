@@ -31,7 +31,8 @@ namespace LevelDesign.Systems
         [SerializeField] private MMF_Player healingFeedback;
 
         private bool inCinematic;
-        private bool ShouldTakeDamage() => !inCinematic;
+        public bool immune;
+        private bool ShouldTakeDamage() => !inCinematic && !immune;
 
         private void OnEnable() {
             if (e_cinematicCamera == null) { return; }

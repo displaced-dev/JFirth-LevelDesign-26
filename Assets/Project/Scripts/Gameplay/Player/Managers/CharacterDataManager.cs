@@ -57,6 +57,7 @@ namespace LevelDesign.Systems.Player
             currentRigInfo = Instantiate(currentCharacterData.thirdPersonVisuals, currentMovementController._visualSpawnPoint);
             if(currentRigInfo != null) {
                 currentRigInfo.playerAnimation.m_Controller = currentMovementController;
+                currentRigInfo.health = currentMovementController.GetComponent<Health>();
             }  
         }
 

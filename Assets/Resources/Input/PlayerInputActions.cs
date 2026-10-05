@@ -190,6 +190,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AltFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""9dc35b28-8404-49c3-83fc-0329feab3771"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -511,6 +520,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""WeaponThree"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a41de5a-94bd-4a80-bb10-a5a542f3cf4f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";M&K"",
+                    ""action"": ""AltFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e91f9123-d9f4-4a51-a742-1f316a9f2756"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""AltFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -558,6 +589,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Gameplay_WeaponOne = m_Gameplay.FindAction("WeaponOne", throwIfNotFound: true);
         m_Gameplay_WeaponTwo = m_Gameplay.FindAction("WeaponTwo", throwIfNotFound: true);
         m_Gameplay_WeaponThree = m_Gameplay.FindAction("WeaponThree", throwIfNotFound: true);
+        m_Gameplay_AltFire = m_Gameplay.FindAction("AltFire", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -649,6 +681,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_WeaponOne;
     private readonly InputAction m_Gameplay_WeaponTwo;
     private readonly InputAction m_Gameplay_WeaponThree;
+    private readonly InputAction m_Gameplay_AltFire;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -704,6 +737,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/WeaponThree".
         /// </summary>
         public InputAction @WeaponThree => m_Wrapper.m_Gameplay_WeaponThree;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/AltFire".
+        /// </summary>
+        public InputAction @AltFire => m_Wrapper.m_Gameplay_AltFire;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -763,6 +800,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @WeaponThree.started += instance.OnWeaponThree;
             @WeaponThree.performed += instance.OnWeaponThree;
             @WeaponThree.canceled += instance.OnWeaponThree;
+            @AltFire.started += instance.OnAltFire;
+            @AltFire.performed += instance.OnAltFire;
+            @AltFire.canceled += instance.OnAltFire;
         }
 
         /// <summary>
@@ -807,6 +847,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @WeaponThree.started -= instance.OnWeaponThree;
             @WeaponThree.performed -= instance.OnWeaponThree;
             @WeaponThree.canceled -= instance.OnWeaponThree;
+            @AltFire.started -= instance.OnAltFire;
+            @AltFire.performed -= instance.OnAltFire;
+            @AltFire.canceled -= instance.OnAltFire;
         }
 
         /// <summary>
@@ -950,5 +993,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnWeaponThree(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AltFire" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAltFire(InputAction.CallbackContext context);
     }
 }

@@ -59,7 +59,6 @@ namespace NodeCanvas.Tasks.Actions
 
             var targetGo = targetList.value[index];
             if ( targetGo == null ) {
-                ParadoxNotion.Services.Logger.LogWarning("List game object is null on Patrol Action Task.", LogTag.EXECUTION, this);
                 EndAction(false);
                 return;
             }

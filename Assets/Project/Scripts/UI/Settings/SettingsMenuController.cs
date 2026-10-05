@@ -27,12 +27,20 @@ namespace LevelDesign.UI
 
         void OpenSettings() {
             settingsOpen = true;
+            settingsMenuToggle.SetActive(true);
+
+            Time.timeScale = 0f;
+
             CursorStateManager.Instance.RequestUnlock(this);
             InputAuthManager.Instance.RequestInput(this);
         }
 
         void CloseSettings() {
             settingsOpen = false;
+            settingsMenuToggle.SetActive(false);
+
+            Time.timeScale = 1f;
+
             CursorStateManager.Instance.RelinquishRequest(this);
             InputAuthManager.Instance.RelinquishRequest(this);
         }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using LevelDesign.Tags;
+using LevelDesign.Data;
 
 // Summary: 
 // A System devised to start / load the player, and update points in which the player should respawn to
@@ -11,6 +12,7 @@ namespace LevelDesign.Gameplay.Levels
     {
         public Transform SpawnPoint { get; private set; }
         public int CurrentCheckpointID => currentCheckpointID;
+        public ProgressionDataSO progression;
 
         [Header("Debug")]
         [SerializeField] private int currentCheckpointID = -1;
@@ -77,6 +79,7 @@ namespace LevelDesign.Gameplay.Levels
             }
 
             currentCheckpointID = checkpointID;
+            progression.checkpoint = checkpointID;
             SetSpawnPoint(checkpoint.transform);
         }
 

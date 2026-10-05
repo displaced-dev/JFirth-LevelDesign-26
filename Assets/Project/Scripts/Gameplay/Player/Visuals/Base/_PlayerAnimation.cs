@@ -28,6 +28,7 @@ namespace LevelDesign.Systems.Player
         private bool isGrounded = true;
         private bool isCrouching = false;
         private bool isMoving = false;
+        private bool isDashing = false;
 
         private Stance characterStance;
 
@@ -93,11 +94,13 @@ namespace LevelDesign.Systems.Player
             switch (characterStance)
             {
                 case Stance.Air:
-                    isGrounded = false; isCrouching = false; break;
+                    isGrounded = false; isCrouching = false; isDashing = false; break;
                 case Stance.Stand:
-                    isGrounded = true; isCrouching = false; break;
+                    isGrounded = true; isCrouching = false; isDashing = false; break;
                 case Stance.Crouch:
-                    isGrounded = true; isCrouching = true; break;
+                    isGrounded = true; isCrouching = true; isDashing = false; break;
+                case Stance.Dash:
+                    characterAnimator.SetTrigger("Dash"); break;
             }
         }
 

@@ -134,13 +134,10 @@ namespace LevelDesign.Systems.Player
             PSM.isCinematic = false;
         }
 
-        public void KillPlayer() {
+        public void RevivePlayer() {
             characterDataM.ClearCharacter();
             characterDataM.LoadCharacterData(characterDataM.fallbackCharacterData);
-        }
-
-        public void ResetScene() {
-            
+            e_playerkilled.RaiseReviveEvent();
         }
         #endregion
     }

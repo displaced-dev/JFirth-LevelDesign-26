@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LevelDesign.Systems.Player
 {
-    public class IKManagewr : MonoBehaviour
+    public class IKManager : MonoBehaviour
     {
         [Header("Scene Refs")]
         [SerializeField] private CharacterDataManager characterDataM;
@@ -17,6 +17,7 @@ namespace LevelDesign.Systems.Player
                 return;
             }
 
+            if(rigInfo.followerConstraint == null) { return; }
             rigInfo.followerConstraint.transform.position = followConstraintMaster.transform.position;
             rigInfo.followerConstraint.transform.rotation = followConstraintMaster.transform.rotation;
         }

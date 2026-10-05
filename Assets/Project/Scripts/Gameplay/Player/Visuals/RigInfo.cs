@@ -12,5 +12,7 @@ namespace LevelDesign.Systems.Player
         public WeaponController handRoot;
         public Animator characterAnimator;
         public _PlayerAnimation playerAnimation;
+        [Space]
+        public Health health;
     }
 }
