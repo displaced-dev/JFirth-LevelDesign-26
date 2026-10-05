@@ -42,7 +42,7 @@ namespace LevelDesign.Systems.Enemy
 
             if(Time.time < nextAttackTime) { EndAction(false); return; }
 
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
             if(anim != null && !string.IsNullOrEmpty(attackTrigger.value)) { anim.SetTrigger(attackTrigger.value); }
         }
 
@@ -51,7 +51,7 @@ namespace LevelDesign.Systems.Enemy
             if(interrupted) { EndAction(false); return; }
 
             if(target.value != null && elapsedTime < faceDuration.value) {
-                MeleeUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
+                EnemyUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
             }
 
             if(elapsedTime >= attackDuration.value) { EndAction(true); }
@@ -61,7 +61,7 @@ namespace LevelDesign.Systems.Enemy
         {
             interrupted = true;
             if(anim != null && !string.IsNullOrEmpty(attackTrigger.value)) { anim.ResetTrigger(attackTrigger.value); }
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()
@@ -73,7 +73,7 @@ namespace LevelDesign.Systems.Enemy
                 if(!saveNextAttackTimeAs.isNone) { saveNextAttackTimeAs.value = nextAttackTime; }
             }
 
-            MeleeUtil.Resume(agent);
+            EnemyUtil.Resume(agent);
         }
     }
 }

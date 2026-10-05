@@ -21,9 +21,7 @@ namespace LevelDesign.Systems.Enemy
 
         protected override string OnInit()
         {
-            mage = agent.GetComponent<EnemyMage>();
-            if(mage == null) { mage = agent.GetComponentInParent<EnemyMage>(); }
-            if(mage == null) { mage = agent.GetComponentInChildren<EnemyMage>(); }
+            mage = EnemyUtil.Find<EnemyMage>(agent);
             return mage == null ? "MageHeal needs an EnemyMage component on the agent." : null;
         }
 
@@ -31,7 +29,7 @@ namespace LevelDesign.Systems.Enemy
         {
             paused = false;
             if(!mage.CanCastHealing) { EndAction(false); return; }
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
             SetHealing(true);
         }
 
@@ -40,7 +38,7 @@ namespace LevelDesign.Systems.Enemy
             if(paused) { paused = false; SetHealing(true); }
 
             if(target.value != null) {
-                MeleeUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
+                EnemyUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
             }
             if(elapsedTime >= healDuration.value) { EndAction(true); }
         }
@@ -49,13 +47,13 @@ namespace LevelDesign.Systems.Enemy
         {
             paused = true;
             SetHealing(false);
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()
         {
             SetHealing(false);
-            MeleeUtil.Resume(agent);
+            EnemyUtil.Resume(agent);
         }
 
         private void SetHealing(bool on)

@@ -43,16 +43,13 @@ namespace LevelDesign.Systems.Enemy
 
             var selfPos = agent.transform.position;
             var targetPos = t.transform.position;
-            MeleeUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
+            EnemyUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
 
             var toSelf = selfPos - targetPos; toSelf.y = 0f;
             var dist = toSelf.magnitude;
             var away = dist > 0.01f ? toSelf / dist : -agent.transform.forward;
 
-            if(elapsedTime >= maxTime.value || (elapsedTime >= minStrafeTime.value && dist >= retreatDistance.value)) {
-                EndAction(true);
-                return;
-            }
+            if(elapsedTime >= maxTime.value || (elapsedTime >= minStrafeTime.value && dist >= retreatDistance.value)) { EndAction(true); return; }
 
             var tangent = Vector3.Cross(Vector3.up, away) * side;
             var outward = Mathf.Clamp01(retreatDistance.value - dist);
@@ -65,12 +62,12 @@ namespace LevelDesign.Systems.Enemy
                 dest = hit.position;
             }
 
-            MeleeUtil.MoveTo(agent, dest);
+            EnemyUtil.MoveTo(agent, dest);
         }
 
         protected override void OnPause()
         {
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()

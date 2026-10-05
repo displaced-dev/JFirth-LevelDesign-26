@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
 using UnityEngine;
-using HeaderAttribute = ParadoxNotion.Design.HeaderAttribute;
 using UnityEngine.AI;
 
 namespace LevelDesign.Systems.Enemy
 {
-    internal static class MeleeUtil
+    internal static class EnemyUtil
     {
         public static float FlatDistance(Vector3 a, Vector3 b)
         {
@@ -24,17 +20,22 @@ namespace LevelDesign.Systems.Enemy
             self.rotation = Quaternion.RotateTowards(self.rotation, look, degreesPerSecond * Time.deltaTime);
         }
 
-        public static bool IsInTaggedState(Animator anim, string tag, out int stateHash)
+        public static bool HasLineOfSight(Vector3 from, GameObject target, Vector3 targetOffset, int mask)
         {
-            stateHash = 0;
-            if(anim == null || string.IsNullOrEmpty(tag)) { return false; }
-            var cur = anim.GetCurrentAnimatorStateInfo(0);
-            if(cur.IsTag(tag)) { stateHash = cur.fullPathHash; return true; }
-            if(anim.IsInTransition(0)) {
-                var next = anim.GetNextAnimatorStateInfo(0);
-                if(next.IsTag(tag)) { stateHash = next.fullPathHash; return true; }
-            }
-            return false;
+            if(target == null) { return false; }
+            var to = target.transform.position + targetOffset;
+            RaycastHit hit;
+            if(!Physics.Linecast(from, to, out hit, mask, QueryTriggerInteraction.Ignore)) { return true; }
+            return hit.transform == target.transform || hit.transform.IsChildOf(target.transform);
+        }
+
+        public static T Find<T>(Component agent) where T : Component
+        {
+            if(agent == null) { return null; }
+            var c = agent.GetComponent<T>();
+            if(c == null) { c = agent.GetComponentInParent<T>(); }
+            if(c == null) { c = agent.GetComponentInChildren<T>(); }
+            return c;
         }
 
         public static void Halt(NavMeshAgent agent)
@@ -49,9 +50,9 @@ namespace LevelDesign.Systems.Enemy
 
         public static void MoveTo(NavMeshAgent agent, Vector3 desired)
         {
-            if(!agent.isOnNavMesh) { return; }
+            if(agent == null || !agent.isOnNavMesh) { return; }
             NavMeshHit hit;
-            if(NavMesh.SamplePosition(desired, out hit, 2f, NavMesh.AllAreas)) {
+            if(NavMesh.SamplePosition(desired, out hit, 2f, agent.areaMask)) {
                 agent.isStopped = false;
                 agent.SetDestination(hit.position);
             }

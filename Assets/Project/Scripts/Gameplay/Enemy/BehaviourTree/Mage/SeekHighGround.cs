@@ -88,13 +88,13 @@ namespace LevelDesign.Systems.Enemy
 
             if(remaining < 2.5f && target.value != null) {
                 agent.updateRotation = false;
-                MeleeUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
+                EnemyUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
             }
         }
 
         protected override void OnPause()
         {
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()

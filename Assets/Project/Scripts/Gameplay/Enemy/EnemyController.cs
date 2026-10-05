@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using LevelDesign.Data;
 using NodeCanvas.BehaviourTrees;
@@ -35,16 +34,29 @@ namespace LevelDesign.Systems.Enemy
         [Header("Events")]
         [SerializeField] private KillPlayerEventChannelSO e_playerkilled;
 
+        private const string HealthPercentParam = "HealthPercent";
+
         private Vector3 startPos;
+        private bool started;
+        private float lastHealthPercent = -1f;
+
+        private void Start() {
+            started = true;
+            SetupCharacter();
+        }
 
         public void OnEnable() {
-            SetupCharacter();
-
             startPos = enemyCollider.gameObject.transform.position;
-            
+
             if(gameConfig.enemiesRespawn) {
                 e_playerkilled.OnReviveRequested += Revive;
             }
+
+            if(started) { SetupCharacter(); }
+        }
+
+        private void Update() {
+            PushHealthPercent(false);
         }
         
         public void OnDisable() {
@@ -59,7 +71,8 @@ namespace LevelDesign.Systems.Enemy
             enemyCollider.gameObject.transform.position = startPos;
 
             enemyCollider.enabled = true;
-            enemyAgent.isStopped = false;
+            enemyAgent.enabled = true;
+            if(enemyAgent.isOnNavMesh) { enemyAgent.isStopped = false; }
             enemyAnimator.Revive();
             
             SetupCharacter();
@@ -72,20 +85,40 @@ namespace LevelDesign.Systems.Enemy
                     ToggleObjects(meleeObjects, true);
                     ToggleObjects(mageObjects, false);
 
-                    behaviourTree.behaviour = meleeBehaviour;
+                    SetBehaviour(meleeBehaviour);
                     enemyAnimator.animator.SetInteger("Weapon", 2);
                     break;
                 case EnemyType.Mage:
                     ToggleObjects(meleeObjects, false);
                     ToggleObjects(mageObjects, true);
 
-                    behaviourTree.behaviour = mageBehaviour;
+                    SetBehaviour(mageBehaviour);
                     enemyAnimator.animator.SetInteger("Weapon", 1);
                     break;
             }
 
             behaviourTree.enabled = true;
-            behaviourTree.RestartBehaviour();
+            behaviourTree.StartBehaviour();
+            PushHealthPercent(true);
+        }
+
+        private void PushHealthPercent(bool force) {
+            if(behaviourTree == null || !behaviourTree.isRunning) { return; }
+
+            float percent = healthComponent.Normalized * 100f;
+            if(!force && Mathf.Approximately(percent, lastHealthPercent)) { return; }
+
+            lastHealthPercent = percent;
+            behaviourTree.SetExposedParameterValue(HealthPercentParam, percent);
+        }
+
+        private void SetBehaviour(BehaviourTree tree) {
+            StopTree();
+            behaviourTree.behaviour = tree;
+        }
+
+        private void StopTree() {
+            if(behaviourTree != null && behaviourTree.isRunning) { behaviourTree.StopBehaviour(); }
         }
 
         public void ToggleObjects(List<GameObject> itemsList, bool state) {
@@ -93,7 +126,7 @@ namespace LevelDesign.Systems.Enemy
         }
 
         public void Die() {
-            behaviourTree.StopBehaviour();
+            StopTree();
             behaviourTree.enabled = false;
  
             enemyAnimator.animator.ResetTrigger("Attack");
@@ -103,6 +136,7 @@ namespace LevelDesign.Systems.Enemy
                 enemyAgent.isStopped = true;
                 enemyAgent.ResetPath();
             }
+            enemyAgent.enabled = false;
             enemyCollider.enabled = false;
  
             enemyAnimator.Die();

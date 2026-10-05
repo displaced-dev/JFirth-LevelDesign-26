@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
-using HeaderAttribute = ParadoxNotion.Design.HeaderAttribute;
 using UnityEngine.AI;
 
 namespace LevelDesign.Systems.Enemy
@@ -31,7 +29,7 @@ namespace LevelDesign.Systems.Enemy
         protected override void OnExecute()
         {
             paused = false;
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
             SetBlocking(true);
         }
 
@@ -40,7 +38,7 @@ namespace LevelDesign.Systems.Enemy
             if(paused) { paused = false; SetBlocking(true); }
 
             if(target.value != null) {
-                MeleeUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
+                EnemyUtil.FaceTarget(agent.transform, target.value.transform.position, turnSpeed.value);
             }
             if(elapsedTime >= blockDuration.value) { EndAction(true); }
         }
@@ -49,19 +47,19 @@ namespace LevelDesign.Systems.Enemy
         {
             paused = true;
             SetBlocking(false);
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()
         {
             SetBlocking(false);
-            MeleeUtil.Resume(agent);
+            EnemyUtil.Resume(agent);
         }
 
         private void SetBlocking(bool on)
         {
             if(anim != null && !string.IsNullOrEmpty(blockBool.value)) { anim.SetBool(blockBool.value, on); }
-            isBlocking.value = on;
+            if(!isBlocking.isNone) { isBlocking.value = on; }
         }
     }
 }

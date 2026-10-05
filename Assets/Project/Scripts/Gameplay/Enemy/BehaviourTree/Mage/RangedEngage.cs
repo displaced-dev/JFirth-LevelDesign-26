@@ -50,15 +50,15 @@ namespace LevelDesign.Systems.Enemy
 
             var selfPos = agent.transform.position;
             var targetPos = t.transform.position;
-            var dist = MeleeUtil.FlatDistance(selfPos, targetPos);
+            var dist = EnemyUtil.FlatDistance(selfPos, targetPos);
             var los = !requireLineOfSight.value ||
-                      MageUtil.HasLineOfSight(selfPos + Vector3.up * eyeHeight.value, t, targetOffset.value, obstacleMask.value.value);
+                      EnemyUtil.HasLineOfSight(selfPos + Vector3.up * eyeHeight.value, t, targetOffset.value, obstacleMask.value.value);
 
             if(dist > castRange.value || !los) {
                 strafing = false;
                 agent.updateRotation = true;
                 agent.speed = chaseSpeed.value;
-                MeleeUtil.MoveTo(agent, targetPos);
+                EnemyUtil.MoveTo(agent, targetPos);
                 return;
             }
 
@@ -71,7 +71,7 @@ namespace LevelDesign.Systems.Enemy
 
             agent.updateRotation = false;
             agent.speed = strafeSpeed.value;
-            MeleeUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
+            EnemyUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
 
             var toTarget = targetPos - selfPos; toTarget.y = 0f; toTarget.Normalize();
             var dir = Vector3.Cross(Vector3.up, toTarget) * strafeSign;
@@ -80,7 +80,7 @@ namespace LevelDesign.Systems.Enemy
 
             Vector3 safe;
             if(MageUtil.TryStep(agent, selfPos, selfPos + dir.normalized * 1.5f, maxHeightDrop.value, out safe)) {
-                MeleeUtil.MoveTo(agent, safe);
+                EnemyUtil.MoveTo(agent, safe);
             }
             else if(!flipped) { strafeSign = -strafeSign; flipped = true; }
             else if(agent.isOnNavMesh) { agent.ResetPath(); }
@@ -90,7 +90,7 @@ namespace LevelDesign.Systems.Enemy
 
         protected override void OnPause()
         {
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()

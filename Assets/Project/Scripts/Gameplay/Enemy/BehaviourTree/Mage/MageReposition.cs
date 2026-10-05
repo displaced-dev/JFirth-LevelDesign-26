@@ -47,7 +47,7 @@ namespace LevelDesign.Systems.Enemy
 
             var selfPos = agent.transform.position;
             var targetPos = t.transform.position;
-            MeleeUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
+            EnemyUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
 
             var toSelf = selfPos - targetPos; toSelf.y = 0f;
             var dist = toSelf.magnitude;
@@ -60,17 +60,17 @@ namespace LevelDesign.Systems.Enemy
             var dir = (tangent * strafeWeight.value + away * outward).normalized;
 
             Vector3 safe;
-            if(MageUtil.TryStep(agent, selfPos, selfPos + dir * 2f, maxHeightDrop.value, out safe)) { MeleeUtil.MoveTo(agent, safe); return; }
+            if(MageUtil.TryStep(agent, selfPos, selfPos + dir * 2f, maxHeightDrop.value, out safe)) { EnemyUtil.MoveTo(agent, safe); return; }
 
             if(!flipped) { side = -side; flipped = true; return; }
 
-            if(MageUtil.TryStep(agent, selfPos, selfPos + away * 2f, maxHeightDrop.value, out safe)) { MeleeUtil.MoveTo(agent, safe); return; }
+            if(MageUtil.TryStep(agent, selfPos, selfPos + away * 2f, maxHeightDrop.value, out safe)) { EnemyUtil.MoveTo(agent, safe); return; }
             EndAction(false);
         }
 
         protected override void OnPause()
         {
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()

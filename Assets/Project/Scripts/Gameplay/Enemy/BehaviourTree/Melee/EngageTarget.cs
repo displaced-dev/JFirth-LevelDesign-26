@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
-using HeaderAttribute = ParadoxNotion.Design.HeaderAttribute;
 using UnityEngine.AI;
 
 namespace LevelDesign.Systems.Enemy
@@ -39,13 +37,13 @@ namespace LevelDesign.Systems.Enemy
 
             var selfPos = agent.transform.position;
             var targetPos = t.transform.position;
-            var dist = MeleeUtil.FlatDistance(selfPos, targetPos);
+            var dist = EnemyUtil.FlatDistance(selfPos, targetPos);
 
             if(dist > attackRange.value) {
                 strafing = false;
                 agent.updateRotation = true;
                 agent.speed = chaseSpeed.value;
-                MeleeUtil.MoveTo(agent, targetPos);
+                EnemyUtil.MoveTo(agent, targetPos);
                 return;
             }
 
@@ -57,20 +55,20 @@ namespace LevelDesign.Systems.Enemy
 
             agent.updateRotation = false;
             agent.speed = strafeSpeed.value;
-            MeleeUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
+            EnemyUtil.FaceTarget(agent.transform, targetPos, turnSpeed.value);
 
             var toTarget = targetPos - selfPos; toTarget.y = 0f; toTarget.Normalize();
             var side = Vector3.Cross(Vector3.up, toTarget) * strafeSign;
             var desired = selfPos + side * 1.5f;
             if(dist < attackRange.value * 0.6f) { desired -= toTarget * 1f; }
-            MeleeUtil.MoveTo(agent, desired);
+            EnemyUtil.MoveTo(agent, desired);
 
             if(elapsedTime - strafeStart >= strafeTime.value) { EndAction(true); }
         }
 
         protected override void OnPause()
         {
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()

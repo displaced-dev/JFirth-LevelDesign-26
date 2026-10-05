@@ -38,9 +38,7 @@ namespace LevelDesign.Systems.Enemy
 
         protected override string OnInit()
         {
-            mage = agent.GetComponent<EnemyMage>();
-            if(mage == null) { mage = agent.GetComponentInParent<EnemyMage>(); }
-            if(mage == null) { mage = agent.GetComponentInChildren<EnemyMage>(); }
+            mage = EnemyUtil.Find<EnemyMage>(agent);
             return mage == null ? "MageAttack needs an EnemyMage component on the agent." : null;
         }
 
@@ -51,7 +49,7 @@ namespace LevelDesign.Systems.Enemy
             if(target.value == null) { EndAction(false); return; }
             if(Time.time < nextAttackTime || !mage.CanCastDamage) { EndAction(false); return; }
 
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
             lastTargetPos = target.value.transform.position;
             targetVel = Vector3.zero;
             mage.SetTrigger(attackTrigger.value);
@@ -66,7 +64,7 @@ namespace LevelDesign.Systems.Enemy
                 var tp = t.transform.position;
                 if(Time.deltaTime > 0f) { targetVel = Vector3.Lerp(targetVel, (tp - lastTargetPos) / Time.deltaTime, 0.5f); }
                 lastTargetPos = tp;
-                if(!fired) { MeleeUtil.FaceTarget(agent.transform, tp, turnSpeed.value); }
+                if(!fired) { EnemyUtil.FaceTarget(agent.transform, tp, turnSpeed.value); }
             }
 
             if(!fired && elapsedTime >= castDelay.value) {
@@ -93,7 +91,7 @@ namespace LevelDesign.Systems.Enemy
         {
             interrupted = true;
             mage.ResetTrigger(attackTrigger.value);
-            MeleeUtil.Halt(agent);
+            EnemyUtil.Halt(agent);
         }
 
         protected override void OnStop()
@@ -105,7 +103,7 @@ namespace LevelDesign.Systems.Enemy
                 if(!saveNextAttackTimeAs.isNone) { saveNextAttackTimeAs.value = nextAttackTime; }
             }
 
-            MeleeUtil.Resume(agent);
+            EnemyUtil.Resume(agent);
         }
     }
 }

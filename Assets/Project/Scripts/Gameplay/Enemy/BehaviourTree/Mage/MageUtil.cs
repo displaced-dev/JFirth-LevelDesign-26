@@ -27,21 +27,12 @@ namespace LevelDesign.Systems.Enemy
         private static readonly List<KeyValuePair<float, Vector3>> scored = new List<KeyValuePair<float, Vector3>>(64);
         private static NavMeshPath path;
 
-        public static bool HasLineOfSight(Vector3 from, GameObject target, Vector3 targetOffset, int mask)
-        {
-            if(target == null) { return false; }
-            var to = target.transform.position + targetOffset;
-            RaycastHit hit;
-            if(!Physics.Linecast(from, to, out hit, mask, QueryTriggerInteraction.Ignore)) { return true; }
-            return hit.transform == target.transform || hit.transform.IsChildOf(target.transform);
-        }
-
         public static bool TryStep(NavMeshAgent agent, Vector3 from, Vector3 dest, float maxDrop, out Vector3 safe)
         {
             safe = from;
             NavMeshHit hit;
             if(NavMesh.Raycast(from, dest, out hit, agent.areaMask)) { dest = hit.position; }
-            if(MeleeUtil.FlatDistance(from, dest) < 0.3f) { return false; }
+            if(EnemyUtil.FlatDistance(from, dest) < 0.3f) { return false; }
             if(!NavMesh.SamplePosition(dest, out hit, 1.5f, agent.areaMask)) { return false; }
             if(hit.position.y < from.y - maxDrop) { return false; }
             safe = hit.position;
@@ -76,7 +67,7 @@ namespace LevelDesign.Systems.Enemy
                 if(markers != null) {
                     foreach(var m in markers) {
                         var mp = m.transform.position;
-                        if(MeleeUtil.FlatDistance(mp, self) > q.searchRadius && MeleeUtil.FlatDistance(mp, targetPos) > q.maxRange) { continue; }
+                        if(EnemyUtil.FlatDistance(mp, self) > q.searchRadius && EnemyUtil.FlatDistance(mp, targetPos) > q.maxRange) { continue; }
                         NavMeshHit nh;
                         if(NavMesh.SamplePosition(mp, out nh, 1.5f, agent.areaMask)) {
                             Score(agent, target, nh.position, self, targetPos, requiredY, q, 2f);
@@ -116,11 +107,11 @@ namespace LevelDesign.Systems.Enemy
         private static void Score(NavMeshAgent agent, GameObject target, Vector3 c, Vector3 self, Vector3 targetPos, float requiredY, HighGroundQuery q, float bonus = 0f)
         {
             if(c.y < requiredY) { return; }
-            var flat = MeleeUtil.FlatDistance(c, targetPos);
+            var flat = EnemyUtil.FlatDistance(c, targetPos);
             if(flat < q.minRange || flat > q.maxRange) { return; }
 
-            float score = (c.y - targetPos.y) * 2f - MeleeUtil.FlatDistance(self, c) * 0.25f + bonus;
-            if(HasLineOfSight(c + Vector3.up * q.eyeHeight, target, q.targetOffset, q.losMask)) { score += 4f; }
+            float score = (c.y - targetPos.y) * 2f - EnemyUtil.FlatDistance(self, c) * 0.25f + bonus;
+            if(EnemyUtil.HasLineOfSight(c + Vector3.up * q.eyeHeight, target, q.targetOffset, q.losMask)) { score += 4f; }
             scored.Add(new KeyValuePair<float, Vector3>(score, c));
         }
 
