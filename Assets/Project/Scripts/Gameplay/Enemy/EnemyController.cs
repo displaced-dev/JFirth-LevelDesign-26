@@ -42,17 +42,14 @@ namespace LevelDesign.Systems.Enemy
 
         private void Start() {
             started = true;
+            startPos = enemyCollider.gameObject.transform.position;
             SetupCharacter();
         }
 
         public void OnEnable() {
-            startPos = enemyCollider.gameObject.transform.position;
-
             if(gameConfig.enemiesRespawn) {
                 e_playerkilled.OnReviveRequested += Revive;
             }
-
-            if(started) { SetupCharacter(); }
         }
 
         private void Update() {
@@ -66,7 +63,7 @@ namespace LevelDesign.Systems.Enemy
         }
 
         public void Revive() {
-            if(progression.checkpoint > associatedCheckpoint || progression.checkpoint != -1) { return; }
+            if(progression.checkpoint > associatedCheckpoint || associatedCheckpoint == -1) { return; }
 
             enemyCollider.gameObject.transform.position = startPos;
 

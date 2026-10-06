@@ -81,7 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7852896507773638601
 RectTransform:
   m_ObjectHideFlags: 0
@@ -98,7 +98,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 264.50952, y: -106.65529}
+  m_AnchoredPosition: {x: 264.50952, y: -116.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3044224916676912712
@@ -677,7 +677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1232520850892535474
 RectTransform:
   m_ObjectHideFlags: 0
@@ -694,7 +694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 264.50952, y: -106.65529}
+  m_AnchoredPosition: {x: 264.50952, y: -116.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4858023067545162229
@@ -1270,6 +1270,7 @@ GameObject:
   - component: {fileID: 5870982133834214048}
   - component: {fileID: 4750809460749301217}
   - component: {fileID: 1831751496632088435}
+  - component: {fileID: 7446475535713431827}
   m_Layer: 7
   m_Name: PlayerController
   m_TagString: PlayerController
@@ -1332,7 +1333,9 @@ MonoBehaviour:
   coyoteTime: 0.35
   dashSpeed: 44
   dashDuration: 0.04
-  dashCooldown: 3
+  dashCooldown: 2
+  characterTweaks: {fileID: 11400000, guid: 3025efb30a3c61c42900e0f5854a6b99, type: 2}
+  e_stamina: {fileID: 11400000, guid: d7edfc7a4d79d22428182fa60c21f334, type: 2}
   debugStance: 0
   debugSprinting: 0
   currentRigInfo: {fileID: 0}
@@ -1476,6 +1479,24 @@ MonoBehaviour:
   e_cinematicCamera: {fileID: 11400000, guid: 033632a4452c2f14eacbe388194f7dda, type: 2}
   damageFeedback: {fileID: 4177823921952999471}
   healingFeedback: {fileID: 914649354803436112}
+  immune: 0
+--- !u!114 &7446475535713431827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321372602246079238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca83f6ae2a80294d9ba1d0a1c6370f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDesign.Systems.Stamina
+  maxStamina: 100
+  regenPerSecond: 20
+  regenDelay: 1
+  e_stamina: {fileID: 11400000, guid: d7edfc7a4d79d22428182fa60c21f334, type: 2}
+  e_playerkilled: {fileID: 11400000, guid: ed94c073a594f004f8e8514ded3ec7d8, type: 2}
 --- !u!1001 &4655649937207832716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1597,8 +1618,31 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8242672680921908957, guid: b881a65d864d8694789dd09c1f29deaa, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7852896507773638601}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8214780354302759516, guid: b881a65d864d8694789dd09c1f29deaa, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4263780487746032481}
   m_SourcePrefab: {fileID: 100100000, guid: b881a65d864d8694789dd09c1f29deaa, type: 3}
+--- !u!1 &3647057833746588368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8214780354302759516, guid: b881a65d864d8694789dd09c1f29deaa, type: 3}
+  m_PrefabInstance: {fileID: 4655649937207832716}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4263780487746032481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647057833746588368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05265a786884084a9e74aa5b89ffb28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDesign.UI.StaminaBarUI
+  healthBar: {fileID: 8222108808295555955}
+  healthBarBacker: {fileID: 8406592248948427933}
+  stamina: {fileID: 7446475535713431827}
 --- !u!224 &3674915109139740241 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8242672680921908957, guid: b881a65d864d8694789dd09c1f29deaa, type: 3}

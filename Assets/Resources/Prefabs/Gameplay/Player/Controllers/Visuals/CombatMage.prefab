@@ -21454,6 +21454,9 @@ MonoBehaviour:
   interactiveArea: {fileID: 7823151169090045399}
   rig: {fileID: 2161157510865734223}
   characterTweaks: {fileID: 11400000, guid: 3025efb30a3c61c42900e0f5854a6b99, type: 2}
+  e_stamina: {fileID: 11400000, guid: d7edfc7a4d79d22428182fa60c21f334, type: 2}
+  swingCost: 15
+  blockCostPerSecond: 10
 --- !u!1 &3273607942383946068
 GameObject:
   m_ObjectHideFlags: 0
@@ -28843,6 +28846,9 @@ MonoBehaviour:
     m_Bits: 4294967295
   aimDistance: 100
   characterTweaks: {fileID: 11400000, guid: 3025efb30a3c61c42900e0f5854a6b99, type: 2}
+  e_stamina: {fileID: 11400000, guid: d7edfc7a4d79d22428182fa60c21f334, type: 2}
+  fireballCost: 20
+  healCostPerSecond: 15
 --- !u!1 &6069593277870810734
 GameObject:
   m_ObjectHideFlags: 0

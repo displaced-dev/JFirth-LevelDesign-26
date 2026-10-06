@@ -112,7 +112,6 @@ namespace LevelDesign.Systems
             Health health = hit.collider.GetComponentInParent<Health>();
             if(health != null) {
                 health.TakeDamage(damage);
-                Debug.Log($"Hit {health.name} for {damage}");
             }
 
             Cleanup();

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 namespace LevelDesign.Systems.Enemy
 {
     [Category("Melee")]
-    [Description("Holds a block for blockDuration while facing the target.")]
+    [Description("Holds a block for blockDuration while facing the target. The agent's Health is immune while blocking.")]
     public class MeleeBlock : ActionTask<NavMeshAgent>
     {
         [RequiredField] public BBParameter<GameObject> target;
@@ -16,6 +16,7 @@ namespace LevelDesign.Systems.Enemy
         [BlackboardOnly] public BBParameter<bool> isBlocking;
 
         private Animator anim;
+        private Health health;
         private bool paused;
 
         protected override string info { get { return "Block for " + blockDuration + "s"; } }
@@ -23,6 +24,7 @@ namespace LevelDesign.Systems.Enemy
         protected override string OnInit()
         {
             anim = agent.GetComponentInChildren<Animator>();
+            health = EnemyUtil.Find<Health>(agent);
             return null;
         }
 
@@ -59,6 +61,7 @@ namespace LevelDesign.Systems.Enemy
         private void SetBlocking(bool on)
         {
             if(anim != null && !string.IsNullOrEmpty(blockBool.value)) { anim.SetBool(blockBool.value, on); }
+            if(health != null) { health.immune = on; }
             if(!isBlocking.isNone) { isBlocking.value = on; }
         }
     }

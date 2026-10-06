@@ -13,3 +13,11 @@ MonoBehaviour:
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::LevelDesign.Data.GameConfigDataSO
   enemiesRespawn: 1
+  canCastDamage: 1
+  castDamage: 40
+  castRate: 2
+  castVelocity: 35
+  castLinger: 5
+  canCastHealing: 1
+  healAmount: 1
+  healRate: 0.35

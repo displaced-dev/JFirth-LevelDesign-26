@@ -47,6 +47,12 @@ namespace LevelDesign.Systems.Player
         [SerializeField] private float dashDuration = 0.15f;
         [SerializeField] private float dashCooldown = 0.75f;
 
+        [Header("Data")]
+        [SerializeField] private CharacterTweaksSO characterTweaks;
+
+        [Header("Event")]
+        [SerializeField] private StaminaEventChannelSO e_stamina;
+
         [Header("Debug")]
         [SerializeField] private Stance debugStance;
         [SerializeField] private bool debugSprinting;
@@ -236,7 +242,7 @@ namespace LevelDesign.Systems.Player
                 dashCooldownTimer -= deltaTime;
             }
 
-            if(requestedDash && CanDash()){
+            if(requestedDash && CanDash() && SpendStamina(characterTweaks.dashCost)){
                 StartDash();
             }
 
@@ -380,6 +386,11 @@ namespace LevelDesign.Systems.Player
 
             var height = crouch ? crouchHeight : standHeight;
             motor.SetCapsuleDimensions(motor.Capsule.radius, height, height * .5f);
+        }
+
+        private bool SpendStamina(float amount)
+        {
+            return e_stamina == null || e_stamina.SpendStamina(amount);
         }
     }
 }

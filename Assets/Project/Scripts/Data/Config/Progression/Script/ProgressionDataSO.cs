@@ -13,7 +13,8 @@ namespace LevelDesign.Data
     {
         [Header("Spawning")]
         [NonSerialized] public int checkpoint;
-/*
+        
+/* Might be Ambitious but progression??? :D
         [Header("Skills")]
         [NonSerialized] public bool unlockedSaSPrimary;
         [NonSerialized] public bool unlockedSaSSecondary;

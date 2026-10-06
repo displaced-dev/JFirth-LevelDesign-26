@@ -17,7 +17,7 @@ namespace LevelDesign.Systems.Enemy
         [SerializeField] private string healBool = "AltAttack";
 
         [Header("Data")]
-        [SerializeField] private CharacterTweaksSO characterTweaks;
+        [SerializeField] private GameConfigDataSO gameConfigData;
 
         private float lastFiredTime = float.NegativeInfinity;
 
@@ -25,10 +25,10 @@ namespace LevelDesign.Systems.Enemy
         public Transform FirePoint { get { return firePoint != null ? firePoint : transform; } }
         public bool IsHealing { get; private set; }
 
-        public bool CanCastDamage { get { return characterTweaks != null && characterTweaks.canCastDamage && projectile != null; } }
-        public bool CanCastHealing { get { return characterTweaks != null && characterTweaks.canCastHealing && interactiveArea != null; } }
-        public float CastRate { get { return characterTweaks != null ? (float)characterTweaks.castRate : 1f; } }
-        public float ProjectileSpeed { get { return characterTweaks != null ? (float)characterTweaks.castVelocity : 0f; } }
+        public bool CanCastDamage { get { return gameConfigData != null && gameConfigData.canCastDamage && projectile != null; } }
+        public bool CanCastHealing { get { return gameConfigData != null && gameConfigData.canCastHealing && interactiveArea != null; } }
+        public float CastRate { get { return gameConfigData != null ? (float)gameConfigData.castRate : 1f; } }
+        public float ProjectileSpeed { get { return gameConfigData != null ? (float)gameConfigData.castVelocity : 0f; } }
 
         private void Awake()
         {
@@ -37,9 +37,9 @@ namespace LevelDesign.Systems.Enemy
 
         private void OnEnable()
         {
-            if(interactiveArea != null && characterTweaks != null) {
-                interactiveArea.SetAmount(characterTweaks.healAmount);
-                interactiveArea.SetInterval(characterTweaks.healRate);
+            if(interactiveArea != null && gameConfigData != null) {
+                interactiveArea.SetAmount(gameConfigData.healAmount);
+                interactiveArea.SetInterval(gameConfigData.healRate);
             }
             StopHeal();
         }
@@ -61,7 +61,7 @@ namespace LevelDesign.Systems.Enemy
             Quaternion rot = Quaternion.LookRotation(dir.normalized);
 
             GameObject vfx = Instantiate(projectile, firePoint.position, rot);
-            vfx.GetComponent<ProjectileBehaviour>()?.Init(projDamage: characterTweaks.castDamage, projSpeed: characterTweaks.castVelocity, projLifetime: characterTweaks.castLinger, impactLife: characterTweaks.castLinger);
+            vfx.GetComponent<ProjectileBehaviour>()?.Init(projDamage: gameConfigData.castDamage, projSpeed: gameConfigData.castVelocity, projLifetime: gameConfigData.castLinger, impactLife: gameConfigData.castLinger);
             return true;
         }
 

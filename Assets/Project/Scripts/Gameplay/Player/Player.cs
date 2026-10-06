@@ -105,7 +105,7 @@ namespace LevelDesign.Systems.Player
                 if(playerCharacter._isInitialized) { return; }
                 playerCharacter._Initialize(psm: PSM, characterdata: characterDataM.currentCharacterData);
 
-                if(checkpointM != null) {
+                if(checkpointM != null && checkpointM.SpawnPoint.position != null) {
                     playerCharacter._Teleport(checkpointM.SpawnPoint.position);
                 }
             }
@@ -135,9 +135,9 @@ namespace LevelDesign.Systems.Player
         }
 
         public void RevivePlayer() {
+            e_playerkilled.RaiseReviveEvent();
             characterDataM.ClearCharacter();
             characterDataM.LoadCharacterData(characterDataM.fallbackCharacterData);
-            e_playerkilled.RaiseReviveEvent();
         }
         #endregion
     }

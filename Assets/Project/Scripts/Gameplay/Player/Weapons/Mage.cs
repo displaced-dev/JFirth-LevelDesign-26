@@ -19,6 +19,9 @@ namespace LevelDesign.Systems.Player
         [Header("Data")]
         [SerializeField] private CharacterTweaksSO characterTweaks;
 
+        [Header("Events")]
+        [SerializeField] private StaminaEventChannelSO e_stamina;
+
         private float lastFiredTime;
 
         private void OnEnable() {
@@ -31,7 +34,7 @@ namespace LevelDesign.Systems.Player
         }
 
         private void OnDisable() {
-            if(InputAuthManager.Instance != null) { InputAuthManager.Instance.RelinquishRequest(this); }            
+            if(InputAuthManager.Instance != null) { InputAuthManager.Instance.RelinquishRequest(this); }
             StopHeal();
         }
 
@@ -40,17 +43,19 @@ namespace LevelDesign.Systems.Player
 
             if(_inputAuthorized != true) { return; }
 
-            if(_input.AltFire.IsPressed() && characterTweaks.canCastHealing) {
+            if(_input.AltFire.IsPressed() && characterTweaks.canCastHealing && SpendStamina(characterTweaks.healingCost * Time.deltaTime)) {
                 Heal();
                 return;
             }
-            else {
-                StopHeal();
-            }
+            StopHeal();
 
             if(_input.Fire.WasPressedThisFrame() && characterTweaks.canCastDamage) {
                 SpawnSpell();
             }
+        }
+
+        private bool SpendStamina(float amount) {
+            return e_stamina == null || e_stamina.SpendStamina(amount);
         }
 
         private void Heal() {
@@ -69,6 +74,8 @@ namespace LevelDesign.Systems.Player
 
             Camera cam = Camera.main;
             if(cam == null) { return; }
+
+            if(!SpendStamina(characterTweaks.castCost)) { return; }
 
             lastFiredTime = Time.time;
 
